@@ -11,6 +11,7 @@ import {
   ButtonGroup,
   Container,
   Divider,
+  Flex,
   Grid,
   GridItem,
   HStack,
@@ -24,6 +25,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Minus, Plus } from "@phosphor-icons/react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   const CustomButton = ({ children, ...props }) => {
@@ -33,7 +35,7 @@ export default function Home() {
       </Button>
     );
   };
-  const CustomCard = ({ src, heading, text, ...props }) => {
+  const CustomCard = ({ src, heading, text, price, ...props }) => {
     return (
       <VStack align={"left"}>
         <Image
@@ -42,7 +44,13 @@ export default function Home() {
           objectFit={"cover"}
           src={src}
           borderRadius={12}
+          border={"1px solid"}
+          borderColor={"gray.200"}
+          mb={2}
         />
+        <Text bg={"gray.100"} py={1} px={4} w={"fit-content"} borderRadius={99}>
+          Desde ${price}
+        </Text>
         <Heading>{heading}</Heading>
         <Text fontSize={"sm"} color={"gray.600"}>
           {text}
@@ -86,6 +94,102 @@ export default function Home() {
     );
   };
 
+  const Carousel = () => {
+    const [activeImage, setActiveImage] = useState(0);
+    const imageRef = useRef(null);
+
+    const images = [
+      {
+        src: "/static/images/header/preview_1.jpg",
+        alt: "Image 1",
+      },
+      {
+        src: "/static/images/header/preview_2.jpg",
+        alt: "Image 2",
+      },
+      {
+        src: "/static/images/header/preview_3.jpg",
+        alt: "Image 3",
+      },
+    ];
+
+    const handleNextImage = () => {
+      setActiveImage(
+        (prevActiveImage) => (prevActiveImage + 1) % images.length
+      );
+    };
+
+    useEffect(() => {
+      const intervalId = setInterval(handleNextImage, 3000);
+      return () => clearInterval(intervalId);
+    }, []);
+
+    return (
+      <Box
+        w={"100%"}
+        h={"100%"}
+        position={"relative"}
+        borderRadius={12}
+        overflow={"hidden"}
+      >
+        <Flex position={"absolute"} w={"100%"} h={"100%"} top={0} left={0}>
+          {images.map((image, index) => (
+            <Box
+              key={index}
+              position="absolute"
+              top="0"
+              left="0"
+              width="100%"
+              height="100%"
+              opacity={index === activeImage ? 1 : 0}
+              transition="opacity 0.5s ease"
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                boxSize={"100%"}
+                objectFit="cover"
+              />
+            </Box>
+          ))}
+        </Flex>
+      </Box>
+    );
+  };
+
+  const servicesImages = [
+    {
+      src: "/static/images/services/logo.jpg",
+      heading: "Logo esencial",
+      text: "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis.",
+      price: "499",
+    },
+    {
+      src: "/static/images/services/logo_plus.jpg",
+      heading: "Logo estándar",
+      text: "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis.",
+      price: "1499",
+    },
+    {
+      src: "/static/images/services/flyer.jpg",
+      heading: "Flyer",
+      text: "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis.",
+      price: "299",
+    },
+    {
+      src: "/static/images/services/business_card.jpg",
+      heading: "Tarjeta de presentación",
+      text: "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis.",
+      price: "299",
+    },
+    {
+      src: "/static/images/services/landing_page.jpg",
+      heading: "Landing page",
+      text: "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis.",
+      price: "1999",
+    },
+  ];
+
   return (
     <main>
       <Container maxW={1280}>
@@ -109,7 +213,13 @@ export default function Home() {
               </ListItem>
             </HStack>
           </List>
-          <CustomButton borderRadius={99}>Hablemos</CustomButton>
+          <CustomButton
+            borderRadius={99}
+            colorScheme={"brand"}
+            fontWeight={"500"}
+          >
+            Hablemos
+          </CustomButton>
         </HStack>
       </Container>
       <Container maxW={1024} p={0} mb={32}>
@@ -119,7 +229,7 @@ export default function Home() {
            * HEADER
            *
            */}
-          <HStack gap={4} pb={8} h={"calc(100vh - 71px - 32px)"}>
+          <HStack gap={4} pb={8} h={"calc(100vh - 71px - 32px)"} w={"100%"}>
             <VStack
               w={"65%"}
               align={"left"}
@@ -128,42 +238,46 @@ export default function Home() {
               border={"1px solid"}
               borderColor={"gray.200"}
               borderRadius={12}
-              p={6}
+              p={8}
             >
               <Box>
-                <Heading as={"h1"} size={"4xl"} mb={4}>
-                  Put an eye-catching display here
+                <Heading as={"h1"} size={"4xl"}>
+                  Diseño personalizado
                 </Heading>
                 <Text mb={12} color={"gray"}>
                   Lumino es un estudio creativo en línea...
                 </Text>
               </Box>
               <ButtonGroup>
-                <CustomButton borderRadius={99}>Primary</CustomButton>
-                <CustomButton variant={"outline"} borderRadius={99}>
-                  Secondary
+                <CustomButton
+                  borderRadius={99}
+                  colorScheme={"brand"}
+                  fontWeight={"500"}
+                >
+                  Hablemos
                 </CustomButton>
+                {/* <CustomButton variant={"outline"} borderRadius={99}>
+                  Hablemos
+                </CustomButton> */}
               </ButtonGroup>
             </VStack>
             <VStack w={"35%"} gap={4} h={"100%"} justify={"end"}>
-              <Image
-                src={
-                  "https://cdn.dribbble.com/userupload/14052174/file/original-b7f9b9c6dc9504613b81b1c9cd5f2ed4.jpg?resize=1024x768"
-                }
-                h={"100%"}
-                objectFit={"cover"}
-                borderRadius={12}
-              />
-              <CustomButton
-                w={"100%"}
-                borderRadius={"99"}
+              <Carousel />
+              <Link
                 bg="gray.800"
                 color="white"
                 _hover={{ bg: "gray.900" }}
                 fontWeight={"400"}
+                href={"https://www.instagram.com/lumino.dw/"}
+                isExternal
+                w={"100%"}
+                h={"48px"}
+                borderRadius={99}
               >
-                Ver portafolio
-              </CustomButton>
+                <Flex w={"100%"} h={"100%"} justify={"center"} align={"center"}>
+                Ver portafolio en IG
+                </Flex>
+              </Link>
             </VStack>
           </HStack>
           {/**
@@ -191,66 +305,16 @@ export default function Home() {
             </VStack>
             <VStack w={"70%"}>
               <Grid templateColumns={"repeat(2, 1fr)"} columnGap={4} rowGap={8}>
-                {/* Card */}
-                <GridItem>
-                  <CustomCard
-                    src={
-                      "https://cdn.dribbble.com/userupload/14130643/file/original-74c8b0b921d4fb5e39c5d07a163cde66.gif"
-                    }
-                    heading={"Logo esencial"}
-                    text={
-                      "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis."
-                    }
-                  ></CustomCard>
-                </GridItem>
-                {/* Card */}
-                <GridItem>
-                  <CustomCard
-                    src={
-                      "https://cdn.dribbble.com/userupload/14130643/file/original-74c8b0b921d4fb5e39c5d07a163cde66.gif"
-                    }
-                    heading={"Logo estándar"}
-                    text={
-                      "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis."
-                    }
-                  ></CustomCard>
-                </GridItem>
-                {/* Card */}
-                <GridItem>
-                  <CustomCard
-                    src={
-                      "https://cdn.dribbble.com/userupload/14130643/file/original-74c8b0b921d4fb5e39c5d07a163cde66.gif"
-                    }
-                    heading={"Flyer"}
-                    text={
-                      "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis."
-                    }
-                  ></CustomCard>
-                </GridItem>
-                {/* Card */}
-                <GridItem>
-                  <CustomCard
-                    src={
-                      "https://cdn.dribbble.com/userupload/14130643/file/original-74c8b0b921d4fb5e39c5d07a163cde66.gif"
-                    }
-                    heading={"Tarjeta de presentación"}
-                    text={
-                      "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis."
-                    }
-                  ></CustomCard>
-                </GridItem>
-                {/* Card */}
-                <GridItem>
-                  <CustomCard
-                    src={
-                      "https://cdn.dribbble.com/userupload/14130643/file/original-74c8b0b921d4fb5e39c5d07a163cde66.gif"
-                    }
-                    heading={"Landing page"}
-                    text={
-                      "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis."
-                    }
-                  ></CustomCard>
-                </GridItem>
+                {servicesImages.map((image, index) => (
+                  <GridItem key={index}>
+                    <CustomCard
+                      src={image.src}
+                      heading={image.heading}
+                      text={image.text}
+                      price={image.price}
+                    ></CustomCard>
+                  </GridItem>
+                ))}
               </Grid>
             </VStack>
           </HStack>
@@ -268,14 +332,20 @@ export default function Home() {
                 id convallis tellus vestibulum a. Mauris sed dolor et arcu
                 dignissim fringilla.
               </Text>
-              <CustomButton
+              <Link
                 bg="gray.800"
                 color="white"
                 _hover={{ bg: "gray.900" }}
                 fontWeight={"400"}
+                href={"https://www.instagram.com/lumino.dw/"}
+                isExternal
+                h={"48px"}
+                borderRadius={99}
               >
+                <Flex w={"100%"} h={"100%"} justify={"center"} align={"center"}>
                 Ver portafolio en IG
-              </CustomButton>
+                </Flex>
+              </Link>
             </VStack>
             <VStack w={"70%"}>
               <Image
@@ -284,7 +354,7 @@ export default function Home() {
                 objectFit={"cover"}
                 border={"1px solid"}
                 borderColor={"gray.200"}
-                src="https://cdn.dribbble.com/userupload/8869711/file/original-0899e0e3fa28fd4301224df885b83f2a.png?resize=1024x366&vertical=center"
+                src={"/static/images/portfolio/portfolio-preview.jpg"}
                 borderRadius={12}
               ></Image>
             </VStack>
