@@ -223,29 +223,38 @@ export default function Home() {
         </HStack>
       </Container>
       <Container maxW={1024} p={0} mb={32}>
-        <VStack gap={32}>
+        <VStack
+          gap={32}
+          backgroundImage={"url('/static/images/header/bg.png')"}
+          backgroundPosition={"top"}
+          backgroundRepeat={"no-repeat"}
+          backgroundSize={"contain"}
+        >
           {/**
            *
            * HEADER
            *
            */}
-          <HStack gap={4} pb={8} h={"calc(100vh - 71px - 32px)"} w={"100%"}>
+          <HStack gap={12} pb={8} h={"calc(100vh - 71px - 32px)"} w={"100%"}>
             <VStack
               w={"65%"}
               align={"left"}
               justify={"end"}
               h={"100%"}
-              border={"1px solid"}
-              borderColor={"gray.200"}
-              borderRadius={12}
-              p={8}
+              // border={"1px solid"}
+              // borderColor={"gray.200"}
+              // borderRadius={12}
+              // p={8}
             >
               <Box>
-                <Heading as={"h1"} size={"4xl"}>
-                  Diseño personalizado
+                <Heading as={"h1"} size={"4xl"} fontWeight={700}>
+                  Developing impactful
                 </Heading>
                 <Text mb={12} color={"gray"}>
-                  Lumino es un estudio creativo en línea...
+                  We help brands defy by producing web and mobile solutions that
+                  are as aesthetically pleasing as they are effective in
+                  fulfilling their purposes: to grow your business, to appeal to
+                  a specific audience, to get funded.
                 </Text>
               </Box>
               <ButtonGroup>
@@ -275,7 +284,7 @@ export default function Home() {
                 borderRadius={99}
               >
                 <Flex w={"100%"} h={"100%"} justify={"center"} align={"center"}>
-                Ver portafolio en IG
+                  Ver portafolio en IG
                 </Flex>
               </Link>
             </VStack>
@@ -343,7 +352,7 @@ export default function Home() {
                 borderRadius={99}
               >
                 <Flex w={"100%"} h={"100%"} justify={"center"} align={"center"}>
-                Ver portafolio en IG
+                  Ver portafolio en IG
                 </Flex>
               </Link>
             </VStack>
