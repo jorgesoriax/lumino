@@ -19,12 +19,13 @@ import {
   Image,
   Link,
   List,
+  ListIcon,
   ListItem,
   Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { Minus, Plus } from "@phosphor-icons/react";
+import { Checks, Minus, Plus } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
@@ -35,7 +36,15 @@ export default function Home() {
       </Button>
     );
   };
-  const CustomCard = ({ src, heading, text, price, ...props }) => {
+  const CustomCard = ({
+    src,
+    heading,
+    description,
+    list,
+    text,
+    price,
+    ...props
+  }) => {
     return (
       <VStack align={"left"}>
         <Image
@@ -52,13 +61,25 @@ export default function Home() {
           Desde ${price}
         </Text>
         <Heading>{heading}</Heading>
+        <List mb={4}>
+          {list.map((item, index) => (
+            <ListItem key={index}>
+              <HStack gap={2} align={"start"}>
+                <Box minW={"20px"} minH={"20px"}>
+                  <Checks size={20} color="green" />
+                </Box>
+                <Text>{item}</Text>
+              </HStack>
+            </ListItem>
+          ))}
+        </List>
         <Text fontSize={"sm"} color={"gray.600"}>
           {text}
         </Text>
       </VStack>
     );
   };
-  const CustomAccordionItem = () => {
+  const CustomAccordionItem = ({ title, body }) => {
     return (
       <AccordionItem
         borderTop={0}
@@ -77,16 +98,13 @@ export default function Home() {
                   fontWeight={"600"}
                   py={4}
                 >
-                  Section 2 title
+                  {title}
                 </Box>
                 {isExpanded ? <Minus size={20} /> : <Plus size={20} />}
               </AccordionButton>
             </Heading>
             <AccordionPanel pb={4} color={"gray.600"}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              {body}
             </AccordionPanel>
           </>
         )}
@@ -160,33 +178,83 @@ export default function Home() {
   const servicesImages = [
     {
       src: "/static/images/services/logo.jpg",
-      heading: "Logo esencial",
-      text: "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis.",
+      heading: "Logotipo básico",
+      description: "Kit esencial.",
+      list: [
+        "Versiones horizontal, vertical y símbolo",
+        "Adaptable a cualquier formato de diseño",
+        "Archivos originales",
+      ],
+      text: "✦ Recomendado para obtener una solución express y de aplicación inmediata.",
       price: "499",
     },
     {
       src: "/static/images/services/logo_plus.jpg",
-      heading: "Logo estándar",
-      text: "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis.",
+      heading: "Logotipo estándar",
+      description: "Kit completo para escalar tu identidad.",
+      list: [
+        "Todo lo que incluye Logotipo básico",
+        "Optimizado para impresión",
+        "Paleta de colores y Tipografía personalizadas",
+        "Manual de aplicación",
+      ],
+      text: "✦ Recomendado para quienes necesiten dar el primer paso para desarrollar una marca única.",
       price: "1499",
     },
     {
       src: "/static/images/services/flyer.jpg",
       heading: "Flyer",
-      text: "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis.",
+      description: "",
+      list: [
+        "Múltiples formatos de diseño",
+        "Optimizado para impresión",
+        "Archivos originales",
+      ],
+      text: "✦ Recomendado para quienes necesiten promocionar información como servicios, productos o eventos en un formato físico.",
       price: "299",
     },
     {
       src: "/static/images/services/business_card.jpg",
       heading: "Tarjeta de presentación",
-      text: "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis.",
+      description: "",
+      list: [
+        "Múltiples formatos de diseño",
+        "Optimizado para impresión",
+        "Archivos originales",
+      ],
+      text: "✦ Recomendado para quienes necesiten dar a conocer sus servicios profesionales en un formato físico.",
       price: "299",
     },
     {
       src: "/static/images/services/landing_page.jpg",
-      heading: "Landing page",
-      text: "Recomendado para Phasellus quis vehicula tellus. Donec pellentesque volutpat nibh, vel dapibus tellus sodales quis.",
+      heading: "Página informativa (WordPress + Divi)",
+      description:
+        "Tambien conocida como Landing Page. Una página para recibir a tus invitados, presentar tu oferta ante ellos e invitarles algo.",
+      list: [
+        "Diseño personalizado",
+        "Optimización SEO-OnPage",
+        "Optimización de carga inicial",
+        "Redacción de contenido",
+        "Optimización para celulares",
+        "1 Trimestre de asistencia y mantenimiento",
+      ],
+      text: "✦ Recomendado para darse a conocer por medio de un sitio web usando catálogos, portafolios o galerías.",
       price: "1999",
+    },
+  ];
+
+  const FAQItems = [
+    {
+      title: "¿Cómo funciona el proceso de diseño?",
+      body: "Una vez recibimos tu formulario iniciamos nuestro proceso de diseño. Comienza con dibujar bocetos a mano para crear distintas propuestas. Después, seleccionamos la mejor, la vectorizamos y finalmente, desarrollamos la documentación necesaria.",
+    },
+    {
+      title: "¿Qué archivos se me entrega al finalizar el servicio?",
+      body: "Podemos exportar los diseños en el formato que desees. Normalmente te entregamos JPG, PNG, SVG, PDF y el archivo editable para Illustrator o Canva. Estos formatos pueden variar según el servicio que deseés.",
+    },
+    {
+      title: "¿Qué sucede si el diseño final no es de mi agrado?",
+      body: "Si no quedas satisfecho o satisfecha con el resultado, cuentas con una garantía de satisfacción que te permite solicitar un reembolso del 100%.",
     },
   ];
 
@@ -247,14 +315,14 @@ export default function Home() {
               // p={8}
             >
               <Box>
-                <Heading as={"h1"} size={"4xl"} fontWeight={700}>
-                  Developing impactful
+                <Heading as={"h1"} size={"4xl"} fontWeight={700} mb={4}>
+                  Inspira tu proyecto con creatividad eficiente
                 </Heading>
                 <Text mb={12} color={"gray"}>
-                  We help brands defy by producing web and mobile solutions that
-                  are as aesthetically pleasing as they are effective in
-                  fulfilling their purposes: to grow your business, to appeal to
-                  a specific audience, to get funded.
+                  Lumino es un estudio creativo independiente que ofrece una
+                  variedad de servicios de diseño personalizado para tu negocio
+                  o proyecto. Busca ofrecer diseño atractivo y útil que
+                  satisfaga al máximo tus necesidades.
                 </Text>
               </Box>
               <ButtonGroup>
@@ -298,19 +366,23 @@ export default function Home() {
             <VStack align={"left"} w="30%">
               <Heading>Servicios</Heading>
               <Text color={"gray"} mb={4}>
-                Nulla libero ipsum, pulvinar id nunc porttitor, aliquam varius
-                sem. Nullam ut orci lectus. In sollicitudin pellentesque quam,
-                id convallis tellus vestibulum a. Mauris sed dolor et arcu
-                dignissim fringilla.
+                Creatividad que surge para satisfacer las necesidades de tu
+                proyecto.
               </Text>
-              <CustomButton
+              <Link
                 bg="gray.800"
                 color="white"
                 _hover={{ bg: "gray.900" }}
                 fontWeight={"400"}
+                href={"https://wa.me/8112802209"}
+                isExternal
+                h={"48px"}
+                borderRadius={99}
               >
-                Necesito algo más
-              </CustomButton>
+                <Flex w={"100%"} h={"100%"} justify={"center"} align={"center"}>
+                  Necesito algo más
+                </Flex>
+              </Link>
             </VStack>
             <VStack w={"70%"}>
               <Grid templateColumns={"repeat(2, 1fr)"} columnGap={4} rowGap={8}>
@@ -319,6 +391,8 @@ export default function Home() {
                     <CustomCard
                       src={image.src}
                       heading={image.heading}
+                      description={image.description}
+                      list={image.list}
                       text={image.text}
                       price={image.price}
                     ></CustomCard>
@@ -336,10 +410,8 @@ export default function Home() {
             <VStack align={"left"} w={"30%"} mb={4}>
               <Heading>Portafolio</Heading>
               <Text color={"gray"} mb={4}>
-                Nulla libero ipsum, pulvinar id nunc porttitor, aliquam varius
-                sem. Nullam ut orci lectus. In sollicitudin pellentesque quam,
-                id convallis tellus vestibulum a. Mauris sed dolor et arcu
-                dignissim fringilla.
+                Hecha un vistazo a algunos de nuestros mejores proyectos en
+                nuestra cuenta de Instagram.
               </Text>
               <Link
                 bg="gray.800"
@@ -373,14 +445,11 @@ export default function Home() {
            * FAQ
            *
            */}
-          <HStack gap={8} align={"left"}>
+          <HStack gap={8} align={"left"} w={"100%"}>
             <VStack align={"left"} w={"30%"} mb={4}>
               <Heading>FAQ</Heading>
               <Text color={"gray"} mb={4}>
-                Nulla libero ipsum, pulvinar id nunc porttitor, aliquam varius
-                sem. Nullam ut orci lectus. In sollicitudin pellentesque quam,
-                id convallis tellus vestibulum a. Mauris sed dolor et arcu
-                dignissim fringilla.
+                Aquí tienes algunas de las preguntas más comunes.
               </Text>
               <CustomButton
                 bg="gray.800"
@@ -388,15 +457,14 @@ export default function Home() {
                 _hover={{ bg: "gray.900" }}
                 fontWeight={"400"}
               >
-                Hacer una pregunta
+                Sugerir una pregunta
               </CustomButton>
             </VStack>
             <VStack w={"70%"}>
               <Accordion allowMultiple w={"100%"}>
-                <CustomAccordionItem />
-                <CustomAccordionItem />
-                <CustomAccordionItem />
-                <CustomAccordionItem />
+                {FAQItems.map((item, index) => (
+                  <CustomAccordionItem title={item.title} body={item.body} />
+                ))}
               </Accordion>
             </VStack>
           </HStack>
@@ -414,13 +482,16 @@ export default function Home() {
         color={"white"}
       >
         <Container maxW={1280}>
-          <HStack py={20}>
-            <VStack w={"40%"}>
+          <HStack py={20} gap={0} align={"start"}>
+            <VStack w={"40%"} align={"left"} gap={8}>
+              <Image
+                src={"/static/images/logo/symbol_light.svg"}
+                boxSize={55}
+              />
               <Text>
-                Proin a tortor sagittis nulla placerat dignissim ac a ex.
-                Aliquam orci neque, commodo at tellus nec, aliquet posuere erat.
-                Mauris vitae tellus in leo laoreet vehicula quis eu lacus.
-                Quisque gravida massa at lorem condimentum imperdiet.
+                Lumino es un estudio creativo independiente que ofrece una
+                variedad de servicios de diseño personalizado para tu negocio o
+                proyecto.
               </Text>
             </VStack>
             <HStack w={"60%"} align={"start"} justify={"end"}>
