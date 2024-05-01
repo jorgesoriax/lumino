@@ -8,7 +8,6 @@ import {
   AccordionPanel,
   Box,
   Button,
-  ButtonGroup,
   Container,
   Divider,
   Flex,
@@ -19,13 +18,16 @@ import {
   Image,
   Link,
   List,
-  ListIcon,
   ListItem,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Stack,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
-import { Checks, Minus, Plus } from "@phosphor-icons/react";
+import { Checks, Minus, Plus, List as PhList, X } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
@@ -145,7 +147,7 @@ export default function Home() {
     return (
       <Box
         w={"100%"}
-        h={"100%"}
+        h={{ base: "350px", lg: "100%" }}
         position={"relative"}
         borderRadius={12}
         overflow={"hidden"}
@@ -267,33 +269,90 @@ export default function Home() {
          *
          */}
         <HStack w={"100%"} justifyContent={"space-between"} mb={8} pt={4}>
+          user
           <LumLogo />
-          <List>
+          <List display={{ base: "none", lg: "block" }}>
             <HStack w={"100%"}>
               <ListItem>
-                <CustomButton variant={"ghost"}>Servicios</CustomButton>
+                <CustomButton
+                  variant={"ghost"}
+                  fontWeight={"bold"}
+                  as={"a"}
+                  href={"#services"}
+                >
+                  Servicios
+                </CustomButton>
               </ListItem>
               <ListItem>
-                <CustomButton variant={"ghost"}>Portafolio</CustomButton>
+                <CustomButton
+                  variant={"ghost"}
+                  fontWeight={"bold"}
+                  as={"a"}
+                  href={"#portfolio"}
+                >
+                  Portafolio
+                </CustomButton>
               </ListItem>
               <ListItem>
-                <CustomButton variant={"ghost"}>Preguntas</CustomButton>
+                <CustomButton
+                  variant={"ghost"}
+                  fontWeight={"bold"}
+                  as={"a"}
+                  href={"#faq"}
+                >
+                  Preguntas
+                </CustomButton>
               </ListItem>
             </HStack>
           </List>
-          <CustomButton
-            borderRadius={99}
-            colorScheme={"brand"}
-            fontWeight={"500"}
-          >
-            Hablemos
-          </CustomButton>
+          {/* MOBILE MENU */}
+          <Box display={{ base: "block", lg: "none" }}>
+            <Menu>
+              {({ isOpen }) => (
+                <>
+                  <MenuButton
+                    isActive={isOpen}
+                    as={Button}
+                    // rightIcon={<ChevronDownIcon />}
+                    p={2}
+                  >
+                    {isOpen ? <X size={32} /> : <PhList size={32} />}
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem>
+                      <Link textDecoration={"none"} href={"#services"}>
+                        Servicios
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link textDecoration={"none"} href={"#portfolio"}>
+                        Portafolio
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link textDecoration={"none"} href={"#faq"}>
+                        Preguntas
+                      </Link>
+                    </MenuItem>
+                  </MenuList>
+                </>
+              )}
+            </Menu>
+          </Box>
         </HStack>
       </Container>
-      <Container maxW={1024} p={0} mb={32}>
+      {/**
+       *
+       * BODY
+       *
+       */}
+      <Container maxW={1024} p={0} mb={{ base: 12, lg: 32 }}>
         <VStack
-          gap={32}
-          backgroundImage={"url('/static/images/header/bg.png')"}
+          gap={{ base: 12, lg: 32 }}
+          backgroundImage={{
+            base: "none",
+            lg: "url('/static/images/header/bg.png')",
+          }}
           backgroundPosition={"top"}
           backgroundRepeat={"no-repeat"}
           backgroundSize={"contain"}
@@ -303,42 +362,56 @@ export default function Home() {
            * HEADER
            *
            */}
-          <HStack gap={12} pb={8} h={"calc(100vh - 71px - 32px)"} w={"100%"}>
+          <Stack
+            gap={{ base: 0, lg: 12 }}
+            pb={{ base: 0, lg: 8 }}
+            h={{ base: "auto", lg: "calc(100vh - 71px - 32px)" }}
+            w={"100%"}
+            direction={{ base: "column-reverse", lg: "row" }}
+            px={{ base: 4, lg: 0 }}
+          >
+            {/* Left */}
             <VStack
-              w={"65%"}
+              w={{ base: "100%", lg: "65%" }}
               align={"left"}
               justify={"end"}
               h={"100%"}
-              // border={"1px solid"}
-              // borderColor={"gray.200"}
-              // borderRadius={12}
-              // p={8}
             >
               <Box>
                 <Heading as={"h1"} size={"4xl"} fontWeight={700} mb={4}>
-                  Inspira tu proyecto con creatividad eficiente
+                  Creatividad eficiente para tus proyectos
                 </Heading>
-                <Text mb={12} color={"gray"}>
+                <Text mb={{ base: 4, lg: 12 }} color={"gray"}>
                   Lumino es un estudio creativo independiente que ofrece una
-                  variedad de servicios de diseño personalizado para tu negocio
-                  o proyecto. Busca ofrecer diseño atractivo y útil que
+                  variedad de servicios de diseño personalizado y útil que
                   satisfaga al máximo tus necesidades.
                 </Text>
               </Box>
-              <ButtonGroup>
-                <CustomButton
-                  borderRadius={99}
-                  colorScheme={"brand"}
-                  fontWeight={"500"}
-                >
+              <Link
+                bg="brand.500"
+                color="white"
+                _hover={{ bg: "brand.600" }}
+                href={"https://wa.me/8112802209"}
+                isExternal
+                w={{ base: "100%", lg: "fit-content" }}
+                h={"48px"}
+                px={8}
+                py={6}
+                borderRadius={99}
+              >
+                <Flex w={"100%"} h={"100%"} justify={"center"} align={"center"}>
                   Hablemos
-                </CustomButton>
-                {/* <CustomButton variant={"outline"} borderRadius={99}>
-                  Hablemos
-                </CustomButton> */}
-              </ButtonGroup>
+                </Flex>
+              </Link>
             </VStack>
-            <VStack w={"35%"} gap={4} h={"100%"} justify={"end"}>
+            {/* Right */}
+            <VStack
+              w={{ base: "100%", lg: "35%" }}
+              gap={4}
+              h={"100%"}
+              justify={"end"}
+              pb={{ base: 4, lg: 0 }}
+            >
               <Carousel />
               <Link
                 bg="gray.800"
@@ -350,20 +423,31 @@ export default function Home() {
                 w={"100%"}
                 h={"48px"}
                 borderRadius={99}
+                display={{ base: "none", lg: "block" }}
               >
                 <Flex w={"100%"} h={"100%"} justify={"center"} align={"center"}>
                   Ver portafolio en IG
                 </Flex>
               </Link>
             </VStack>
-          </HStack>
+          </Stack>
           {/**
            *
            * SERVICES
            *
            */}
-          <HStack gap={8} align={"start"}>
-            <VStack align={"left"} w="30%">
+          <Stack
+            gap={8}
+            align={"start"}
+            direction={{ base: "column", lg: "row" }}
+            id={"services"}
+            scrollMarginTop={{ base: 4, lg: 8 }}
+          >
+            <VStack
+              align={"left"}
+              w={{ base: "100%", lg: "30%" }}
+              padding={{ base: 4, lg: 0 }}
+            >
               <Heading>Servicios</Heading>
               <Text color={"gray"} mb={4}>
                 Creatividad que surge para satisfacer las necesidades de tu
@@ -384,8 +468,15 @@ export default function Home() {
                 </Flex>
               </Link>
             </VStack>
-            <VStack w={"70%"}>
-              <Grid templateColumns={"repeat(2, 1fr)"} columnGap={4} rowGap={8}>
+            <VStack
+              w={{ base: "100%", lg: "70%" }}
+              padding={{ base: 4, lg: 0 }}
+            >
+              <Grid
+                templateColumns={{ base: "1fr", lg: "repeat(2, 1fr)" }}
+                columnGap={4}
+                rowGap={8}
+              >
                 {servicesImages.map((image, index) => (
                   <GridItem key={index}>
                     <CustomCard
@@ -400,14 +491,21 @@ export default function Home() {
                 ))}
               </Grid>
             </VStack>
-          </HStack>
+          </Stack>
           {/**
            *
            * PORTFOLIO
            *
            */}
-          <HStack gap={8} align={"left"}>
-            <VStack align={"left"} w={"30%"} mb={4}>
+          <Stack
+            gap={8}
+            align={"left"}
+            direction={{ base: "column", lg: "row" }}
+            px={{ base: 4, lg: 0 }}
+            id={"portfolio"}
+            scrollMarginTop={{ base: 4, lg: 8 }}
+          >
+            <VStack align={"left"} w={{ base: "100%", lg: "30%" }} mb={4}>
               <Heading>Portafolio</Heading>
               <Text color={"gray"} mb={4}>
                 Hecha un vistazo a algunos de nuestros mejores proyectos en
@@ -428,7 +526,7 @@ export default function Home() {
                 </Flex>
               </Link>
             </VStack>
-            <VStack w={"70%"}>
+            <VStack w={{ base: "100%", lg: "70%" }}>
               <Image
                 w={"100%"}
                 h={"350px"}
@@ -439,35 +537,50 @@ export default function Home() {
                 borderRadius={12}
               ></Image>
             </VStack>
-          </HStack>
+          </Stack>
           {/**
            *
            * FAQ
            *
            */}
-          <HStack gap={8} align={"left"} w={"100%"}>
-            <VStack align={"left"} w={"30%"} mb={4}>
+          <Stack
+            gap={8}
+            align={"left"}
+            w={"100%"}
+            direction={{ base: "column", lg: "row" }}
+            px={{ base: 4, lg: 0 }}
+            id={"faq"}
+            scrollMarginTop={{ base: 4, lg: 8 }}
+          >
+            <VStack align={"left"} w={{ base: "100%", lg: "30%" }} mb={4}>
               <Heading>FAQ</Heading>
               <Text color={"gray"} mb={4}>
                 Aquí tienes algunas de las preguntas más comunes.
               </Text>
-              <CustomButton
+              <Link
                 bg="gray.800"
                 color="white"
                 _hover={{ bg: "gray.900" }}
                 fontWeight={"400"}
+                href={"https://wa.me/8112802209"}
+                isExternal
+                w={"100%"}
+                h={"48px"}
+                borderRadius={99}
               >
-                Sugerir una pregunta
-              </CustomButton>
+                <Flex w={"100%"} h={"100%"} justify={"center"} align={"center"}>
+                  Sugerir una pregunta
+                </Flex>
+              </Link>
             </VStack>
-            <VStack w={"70%"}>
+            <VStack w={{ base: "100%", lg: "70%" }}>
               <Accordion allowMultiple w={"100%"}>
                 {FAQItems.map((item, index) => (
                   <CustomAccordionItem title={item.title} body={item.body} />
                 ))}
               </Accordion>
             </VStack>
-          </HStack>
+          </Stack>
         </VStack>
       </Container>
       {/**
@@ -482,21 +595,36 @@ export default function Home() {
         color={"white"}
       >
         <Container maxW={1280}>
-          <HStack py={20} gap={0} align={"start"}>
-            <VStack w={"40%"} align={"left"} gap={8}>
+          <Stack
+            py={20}
+            gap={{ base: 8, lg: 0 }}
+            align={"start"}
+            direction={{ base: "column", lg: "row" }}
+          >
+            <VStack
+              w={{ base: "100%", lg: "40%" }}
+              align={{ base: "center", lg: "left" }}
+              gap={8}
+            >
               <Image
                 src={"/static/images/logo/symbol_light.svg"}
                 boxSize={55}
               />
-              <Text>
+              <Text textAlign={{ base: "center", lg: "left" }}>
                 Lumino es un estudio creativo independiente que ofrece una
                 variedad de servicios de diseño personalizado para tu negocio o
                 proyecto.
               </Text>
             </VStack>
-            <HStack w={"60%"} align={"start"} justify={"end"}>
+            <Stack
+              w={{ base: "100%", lg: "60%" }}
+              align={{ base: "center", lg: "start" }}
+              justify={"end"}
+              direction={{ base: "column", lg: "row" }}
+              gap={{ base: 8, lg: 0 }}
+            >
               <VStack align={"right"} minW={"150px"}>
-                <List textAlign={"right"}>
+                <List textAlign={{ base: "center", lg: "right" }}>
                   <Text color={"gray.500"}>Contacto</Text>
                   <ListItem>
                     <Link href={"https://wa.me/8112802209"} isExternal>
@@ -511,7 +639,7 @@ export default function Home() {
                 </List>
               </VStack>
               <VStack align={"right"} minW={"150px"}>
-                <List textAlign={"right"}>
+                <List textAlign={{ base: "center", lg: "right" }}>
                   <ListItem>
                     <Text color={"gray.500"}>Redes sociales</Text>
                     <Link
@@ -523,11 +651,15 @@ export default function Home() {
                   </ListItem>
                 </List>
               </VStack>
-            </HStack>
-          </HStack>
+            </Stack>
+          </Stack>
           <Divider borderColor={"gray.700"} />
           <Stack py={4}>
-            <Text fontSize={"sm"} color={"gray.500"}>
+            <Text
+              fontSize={"sm"}
+              color={"gray.500"}
+              textAlign={{ base: "center", lg: "left" }}
+            >
               ©2024 Todos los derechos reservados.
             </Text>
           </Stack>
